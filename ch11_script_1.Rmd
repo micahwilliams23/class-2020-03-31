@@ -127,6 +127,18 @@ county %>%
 
 Here is an example: https://rpubs.com/ruchajoshi/regional_poverty
 
+```{r, cache=TRUE}
+county %>%
+  ggplot(aes(x = less_than_hs, 
+             y = poverty,
+             color = region)) +
+  geom_point() +
+  labs(x = "Percent of Adults with Less than a High School Diploma", 
+       y = "Percent of Poverty",
+       title = "Scatterplot of relationship of education level and poverty rates") + 
+  transition_manual(region)
+```
+
 
 # Scene 6
 
@@ -146,6 +158,14 @@ Third, does this suggest that `good_education` causes less poverty? If you chang
 Fourth, recall the Rubin Causal Model and potential outcomes. Write down the units, the treatments, and the outcomes. Define the causal effect of `good_education` on poverty rate. What is the fundamental problem of causal inference?
 
 Fifth, how do the above answers change if, instead of using `good_education`, we use `less_than_hs` instead?
+
+```{r}
+county %>% 
+  mutate(good_education = ifelse(less_than_hs < 13, 1, 0)) %>% 
+  group_by(good_education) %>% 
+  summarize(avg_poverty = mean(poverty))
+```
+
 
 
 # Scene 8
