@@ -151,7 +151,7 @@ county %>%
 
 First, what is the average poverty in the `good_education` = 1 counties versus `good_education` = 0 counties?
 
-Second, does this suggest that `good_education` is associated with less poverty? If a new county had `good_education` what would you guess its povery rate is?
+Second, does this suggest that `good_education` is associated with less poverty? If a new county had `good_education` what would you guess its poverty rate is?
 
 Third, does this suggest that `good_education` causes less poverty? If you change education in a county, will poverty change?
 
