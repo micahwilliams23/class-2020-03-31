@@ -97,10 +97,28 @@ county %>%
 
 **Prompt:** What is the correlation coefficient of `poverty` and `less_than_hs`? What does it mean? What does it suggest about the relation between the percent of the population in poverty in 2018 and the percent of the population with less than a high school degree in 2014? 
 
+```{r}
+county %>% 
+  summarize(correlation = cor(poverty,
+                              less_than_hs))
+```
 
 # Scene 4
 
 **Prompt:** Use a scatterplot to visualize this data, including a straight line of best fit. The dependent variable is `poverty`. The independent variable is `less_than_hs`.
+
+```{r}
+county %>%
+  ggplot(aes(x = less_than_hs, 
+             y = poverty)) +
+    geom_point() +
+    labs(x = "Percent of Adults with Less than a High School Diploma", 
+         y = "Percent of County in Poverty",
+         title = "Poverty Rate and Education in US Counties",
+         subtitle = "Counties with less education have more poverty",
+         caption = "Source: https://www.ers.usda.gov/data-products/county-level-data-sets") +
+    geom_smooth(method = "lm", se = FALSE) 
+```
 
 
 # Scene 5
