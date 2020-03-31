@@ -39,10 +39,58 @@ county <- read_rds("county.rds")
 
 We are interested in understanding how poverty is correlated with (and influenced by?) education.
 
+```{r}
+county
+```
+
+```{r}
+glimpse(county)
+```
+
+```{r}
+summary(county)
+```
+
+```{r}
+county %>%
+  select(poverty, less_than_hs) %>%
+  skim()
+```
 
 # Scene 2
 
 **Prompt** Let’s start by exploring our numerical outcome variable `poverty` and our numerical explanatory variable `less_than_hs`. What is the average poverty rate in the US? How does this compare with that of your county (if you are not from US look up Middlesex County - the county that Cambridge, MA is in)? Furthermore, what is the average percentage of adults without a high school diploma? Which state's county has the highest percentage of adults without a high school diploma?
+
+```{r}
+# Average poverty rate in the US
+
+county %>% 
+  summarise(avg_pov = mean(poverty))
+
+# Poverty rate of Middlesex County
+
+county %>% 
+  filter(name %in% "Middlesex County",
+         state == "MA") %>%
+  select(poverty)
+
+# Average percent of adults without a high school diploma
+
+county %>% 
+  summarise(avg_no_hdiploma = mean(less_than_hs))
+
+# Average percent of adults with a high school diploma
+
+county %>% 
+  summarise(avg_no_hdiploma = mean(hs))
+
+# State with the highest percentage of adults with less than a high school diploma
+
+county %>%
+  arrange(desc(less_than_hs)) %>%
+  head(1) %>%
+  select(state)
+```
 
 
 # Scene 3
