@@ -172,14 +172,37 @@ county %>%
 
 **Prompt** Using the `lm()` function, fit a model with this data in which `poverty` is the dependent variable and `less_than_hs` is the independent variable. Save the resulting object as `poverty_model`. Then, use the tidy() function found in section 11.1.2 to obtain the regression parameters. You should have a 2x7 regression table with terms of (Intercept) and `less_than_hs`, as well as an estimate, std.error, statistic, p.value, conf.low, and conf.high. Write one sentence explaining what the intercept means and one sentence about what the slope means.
 
+```{r}
+poverty_model <- lm(poverty ~ less_than_hs, data = county)
+
+poverty_model %>% tidy(conf.int = T)
+```
+
+
 
 # Scene 9
 
 **Prompt** Use nest() to create a 1,000 bootstrap samples of the the data, just as we did when estimating confidence intervals. In each row of this tibble, we'll have a resampled collection of counties in which we’ll sometimes have multiple counties represented and sometimes there will be counties that don't even appear.
 
+```{r}
+county_samples <- rep_sample_n(county, size = 3129, replace = T, reps = 1000) %>% 
+  group_by(replicate) %>%
+  nest() %>%
+  mutate(distinct = map_dbl(data, ~n_distinct(.)))
+
+glimpse(county_samples)
+```
+
+
 # Scene 10 
 
 **Prompt**  Now, using the starter code above, go ahead and add more columns. Make one called `mod` which will contains the model objects created by `lm()`. Then, add one called `reg_results` which will tidy the objects created by `lm()`, and then one called `disp_coef` which will display the regression coefficient for each bootstrap sample. 
+
+```{r}
+sample_models <- county_samples %>% 
+  mutate(mod = map(data, ~lm(poverty ~ less_than_hs, data = .)))
+```
+
 
 
 # Scene 11 
